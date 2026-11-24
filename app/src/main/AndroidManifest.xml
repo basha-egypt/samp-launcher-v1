@@ -2,7 +2,6 @@
     android:installLocation="auto">
 
     <!-- PermissÃµes -->
-    <uses-permission android:name="INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -23,7 +22,6 @@
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-    <uses-permission android:name="android.permission.Ad_ID"/>
 
     <!-- Features -->
     <uses-feature android:glEsVersion="0x00020000"/>
