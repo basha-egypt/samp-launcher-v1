@@ -271,10 +271,10 @@ public class SplashActivity extends SampActivity {
         TextView primaryButton = dialogView.findViewById(R.id.update_prompt_primary);
         TextView secondaryButton = dialogView.findViewById(R.id.update_prompt_secondary);
 
-        titleView.setText("Download indisponivel");
+        titleView.setText("التحميل غير متاح");
         bodyView.setText("Os arquivos do jogo ainda nao estao no aparelho e a fonte de download nao respondeu. Tente novamente ou configure o update_sources.json com sua URL do Hugging Face.");
         primaryButton.setText("Tentar de novo");
-        secondaryButton.setText("Fechar");
+        secondaryButton.setText("إغلاق");
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)

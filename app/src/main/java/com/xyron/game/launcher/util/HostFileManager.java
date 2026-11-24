@@ -354,7 +354,7 @@ public final class HostFileManager {
         appendFileIfPresent(result, root, LocalHostManager.getSharedServerCfgFile(), "Config");
         appendFileIfPresent(result, root, LocalHostManager.getSharedOmpConfigFile(), "Config");
 
-        appendDirectory(result, root, LocalHostManager.getSharedGamemodesDirectory(), "Gamemodes");
+        appendDirectory(result, root, LocalHostManager.getSharedGamemodesDirectory(), "المودات");
         appendDirectory(result, root, LocalHostManager.getSharedScriptfilesDirectory(), "Scriptfiles");
         appendDirectory(result, root, LocalHostManager.getSharedPluginsDirectory(), "Plugins");
         appendDirectory(result, root, LocalHostManager.getSharedComponentsDirectory(), "Componentes");
@@ -427,7 +427,7 @@ public final class HostFileManager {
 
     private static String resolveCategory(String relativePath, boolean directory) {
         if (TextUtils.isEmpty(relativePath)) {
-            return directory ? "Raiz" : "Arquivo";
+            return directory ? "الجذر" : "ملف";
         }
 
         String normalized = relativePath.replace('\\', '/');
@@ -440,11 +440,11 @@ public final class HostFileManager {
         }
         if ("server".equals(first)) {
             if (parts.length == 1) {
-                return "Servidor";
+                return "السيرفر";
             }
             String second = parts[1].toLowerCase(Locale.US);
             if ("gamemodes".equals(second)) {
-                return "Gamemodes";
+                return "المودات";
             }
             if ("scriptfiles".equals(second)) {
                 return "Scriptfiles";
@@ -455,7 +455,7 @@ public final class HostFileManager {
             if ("components".equals(second)) {
                 return "Componentes";
             }
-            return "Servidor";
+            return "السيرفر";
         }
         if ("bin".equals(first)) {
             return "Binarios";
@@ -593,7 +593,7 @@ public final class HostFileManager {
         if ("Config".equals(category)) {
             return 0;
         }
-        if ("Gamemodes".equals(category)) {
+        if ("المودات".equals(category)) {
             return 1;
         }
         if ("Scriptfiles".equals(category)) {

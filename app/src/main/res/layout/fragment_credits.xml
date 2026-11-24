@@ -45,7 +45,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="5dp"
-                        android:text="Creditos"
+                        android:text="الحقوق"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="8sp" />
@@ -60,7 +60,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="5dp"
-                        android:text="MENSAGEM FINAL"
+                        android:text="الرسالة الختامية"
                         android:textAllCaps="true"
                         android:textColor="@color/launcher_text_secondary"
                         android:textSize="7.5sp" />
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Creditos e mensagem"
+                    android:text="الحقوق والرسالة"
                     android:textColor="@android:color/white"
                     android:textSize="21sp" />
 
@@ -82,7 +82,7 @@
                     android:maxWidth="760dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:lineSpacingExtra="2dp"
-                    android:text="Uma area simples para registrar a origem do projeto e a mensagem final."
+                    android:text="قسم بسيط لتسجيل أصل المشروع والرسالة الختامية."
                     android:textColor="@color/launcher_text_secondary"
                     android:textSize="9.5sp" />
 
@@ -103,7 +103,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="6dp"
-                        android:text="Destaque"
+                        android:text="مميز"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="7.6sp" />
@@ -130,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Credito curto"
+                        android:text="حقوق مختصرة"
                         android:textColor="@android:color/white"
                         android:textSize="11sp" />
 
@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Mensagem de compartilhamento"
+                        android:text="رسالة المشاركة"
                         android:textColor="@android:color/white"
                         android:textSize="11sp" />
 

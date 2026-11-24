@@ -390,7 +390,7 @@ public final class ServerConfigManager {
         if (!sanitize(host).isEmpty() && isValidPort(port)) {
             return host + ":" + port;
         }
-        return "Servidor";
+        return "السيرفر";
     }
 
     private static ParsedServerAddress parseServerAddress(String rawAddress) {

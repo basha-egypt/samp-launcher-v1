@@ -66,13 +66,13 @@ public class WorkbenchFragment extends Fragment {
         ));
         bindAction(root.findViewById(R.id.button_workbench_new_include), () -> promptCreateResource(
                 ServerWorkbenchManager.ResourceType.INCLUDE,
-                "Novo include",
+                "include جديد",
                 "Cria um .inc com guarda basica em /editor/include.",
                 "ex: player_utils"
         ));
         bindAction(root.findViewById(R.id.button_workbench_new_scriptfile), () -> promptCreateResource(
                 ServerWorkbenchManager.ResourceType.SCRIPTFILE,
-                "Novo scriptfile",
+                "scriptfile جديد",
                 "Cria um arquivo auxiliar em /server/scriptfiles.",
                 "ex: contas"
         ));
@@ -179,7 +179,7 @@ public class WorkbenchFragment extends Fragment {
                 title,
                 note,
                 hint,
-                "Criar",
+                "إنشاء",
                 false,
                 value -> runBackgroundAction(() -> {
                     ServerWorkbenchManager.ActionResult result =
@@ -192,7 +192,7 @@ public class WorkbenchFragment extends Fragment {
     private void promptCreateBackup() {
         showPromptDialog(
                 "Backup",
-                "Criar backup .zip",
+                "إنشاء نسخة احتياطية .zip",
                 "Digite um rotulo curto opcional. O launcher vai gerar um .zip da pasta compartilhada do host.",
                 "ex: versao_teste",
                 "Gerar",
@@ -281,7 +281,7 @@ public class WorkbenchFragment extends Fragment {
         confirmButton.setOnClickListener(v -> {
             String value = input.getText() == null ? "" : input.getText().toString().trim();
             if (TextUtils.isEmpty(value) && !allowEmpty) {
-                Toast.makeText(getContext(), "Digite um valor para continuar.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "اكتب قيمة للمتابعة.", Toast.LENGTH_SHORT).show();
                 return;
             }
             dialog.dismiss();

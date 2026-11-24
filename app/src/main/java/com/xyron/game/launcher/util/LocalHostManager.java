@@ -753,11 +753,11 @@ public final class LocalHostManager {
         try {
             JSONObject root = parseExistingConfig(configFile);
             String name = root.optString("name");
-            if (!"Xyron Local Host".equals(name) && !"News RP Local Host".equals(name)) {
+            if (!"Xyron Local Host".equals(name) && !"استضافة محلية".equals(name)) {
                 return;
             }
 
-            root.put("name", "News RP Local Host");
+            root.put("name", "استضافة محلية");
             root.put("announce", false);
             root.put("enable_query", true);
 
@@ -911,7 +911,7 @@ public final class LocalHostManager {
             root.put("announce", false);
             root.put("enable_query", true);
             root.put("max_players", 32);
-            root.put("name", "News RP Local Host");
+            root.put("name", "استضافة محلية");
 
             JSONObject network = root.optJSONObject("network");
             if (network == null) {

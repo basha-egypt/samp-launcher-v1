@@ -39,7 +39,7 @@ public final class ServerWorkbenchManager {
         prepare(context);
 
         ServerSettings settings = new ServerSettings();
-        settings.hostname = "News RP Local Host";
+        settings.hostname = "استضافة محلية";
         settings.website = "localhost";
         settings.language = "pt-BR";
         settings.maxPlayers = 32;
@@ -71,7 +71,7 @@ public final class ServerWorkbenchManager {
 
         String normalizedMainScript = normalizeScriptName(settings.mainScript, "blank");
         settings.mainScript = normalizedMainScript;
-        settings.hostname = fallback(settings.hostname, "News RP Local Host");
+        settings.hostname = fallback(settings.hostname, "استضافة محلية");
         settings.website = fallback(settings.website, "localhost");
         settings.language = fallback(settings.language, "pt-BR");
         settings.maxPlayers = clampMaxPlayers(settings.maxPlayers);

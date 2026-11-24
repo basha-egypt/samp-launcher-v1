@@ -196,7 +196,7 @@ public class EditorFragment extends Fragment {
         nameView.setText(entry.displayName);
         metaView.setText(buildMeta(entry));
         pathView.setText(entry.relativePath);
-        openAction.setText(entry.directory ? "Entrar" : "Abrir");
+        openAction.setText(entry.directory ? "دخول" : "فتح");
         compileAction.setVisibility(entry.directory || !PawnCompilerManager.isCompilableFile(entry.relativePath)
                 ? View.GONE
                 : View.VISIBLE);
@@ -229,7 +229,7 @@ public class EditorFragment extends Fragment {
             selectedFilePath = entry.relativePath;
             editorInput.setText(content);
             editorInput.setSelection(editorInput.getText() == null ? 0 : editorInput.getText().length());
-            compileOutput.setText("Arquivo aberto: " + entry.displayName);
+            compileOutput.setText("تم فتح الملف: " + entry.displayName);
             refreshEditorState();
         } catch (Exception e) {
             Toast.makeText(requireContext(), "Nao foi possivel abrir o arquivo.", Toast.LENGTH_SHORT).show();
@@ -272,7 +272,7 @@ public class EditorFragment extends Fragment {
 
     private void saveCurrentFile() {
         if (TextUtils.isEmpty(selectedFilePath)) {
-            Toast.makeText(requireContext(), "Abra um arquivo para salvar.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "افتح ملفاً لحفظه.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -283,7 +283,7 @@ public class EditorFragment extends Fragment {
             return;
         }
 
-        Toast.makeText(requireContext(), "Arquivo salvo.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "تم حفظ الملف.", Toast.LENGTH_SHORT).show();
         refreshEditorState();
         refreshFileList();
     }
@@ -298,7 +298,7 @@ public class EditorFragment extends Fragment {
             return;
         }
         if (TextUtils.isEmpty(relativePath)) {
-            Toast.makeText(requireContext(), "Abra um .pwn antes de compilar.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "افتح ملف .pwn قبل التجميع.", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!PawnCompilerManager.isCompilableFile(relativePath)) {
@@ -312,7 +312,7 @@ public class EditorFragment extends Fragment {
 
         compileInFlight = true;
         refreshEditorState();
-        compileOutput.setText("Compilando...");
+        compileOutput.setText("جاري التجميع...");
 
         new Thread(() -> {
             PawnCompilerManager.CompileResult result = PawnCompilerManager.compile(requireContext(), relativePath);
@@ -326,9 +326,9 @@ public class EditorFragment extends Fragment {
                 refreshEditorState();
                 refreshFileList();
                 if (result.success) {
-                    Toast.makeText(requireContext(), "Compilacao concluida.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "اكتمل التجميع.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(requireContext(), "A compilacao retornou erro.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "حدث خطأ أثناء التجميع.", Toast.LENGTH_SHORT).show();
                 }
             });
         }, "xyron-pawn-compile").start();
@@ -348,7 +348,7 @@ public class EditorFragment extends Fragment {
         }
 
         currentFileName.setText(fileSelected ? file.getName() : "Nenhum arquivo aberto");
-        currentFilePath.setText(fileSelected ? selectedFilePath : "Abra um .pwn ou .inc para editar e compilar.");
+        currentFilePath.setText(fileSelected ? selectedFilePath : "افتح ملف .pwn أو .inc للتعديل والتجميع.");
         editorInput.setEnabled(fileSelected);
         editorInput.setAlpha(fileSelected ? 1f : 0.72f);
         if (!fileSelected && TextUtils.isEmpty(editorInput.getText())) {
@@ -360,7 +360,7 @@ public class EditorFragment extends Fragment {
         buttonSave.setAlpha(fileSelected && !compileInFlight ? 1f : 0.45f);
         buttonCompile.setEnabled(canCompile);
         buttonCompile.setAlpha(canCompile ? 1f : 0.45f);
-        buttonCompile.setText(compileInFlight ? "Compilando..." : "Compilar .pwn");
+        buttonCompile.setText(compileInFlight ? "جاري التجميع..." : "تجميع .pwn");
     }
 
     private void launchImportPicker() {
@@ -415,8 +415,8 @@ public class EditorFragment extends Fragment {
         TextView cancelButton = dialogView.findViewById(R.id.dialog_host_create_cancel);
         TextView saveButton = dialogView.findViewById(R.id.dialog_host_create_save);
 
-        badgeView.setText(includeFile ? "Novo include" : "Novo script");
-        titleView.setText(includeFile ? "Criar include nesta pasta" : "Criar script Pawn nesta pasta");
+        badgeView.setText(includeFile ? "include جديد" : "Novo script");
+        titleView.setText(includeFile ? "إنشاء include في هذا المجلد" : "إنشاء سكربت Pawn في هذا المجلد");
         pathView.setText(HostFileManager.getDisplayPath(currentRelativePath));
         inputView.setHint(includeFile ? "nome_do_include.inc" : "nome_do_script.pwn");
 
@@ -448,7 +448,7 @@ public class EditorFragment extends Fragment {
             }
             refreshAll();
             loadSelectedFile();
-            Toast.makeText(requireContext(), "Arquivo criado no editor.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "تم إنشاء الملف في المحرر.", Toast.LENGTH_SHORT).show();
         });
 
         dialog.show();
@@ -468,7 +468,7 @@ public class EditorFragment extends Fragment {
         TextView saveButton = dialogView.findViewById(R.id.dialog_host_rename_save);
 
         badgeView.setText(entry.directory ? "Renomear pasta" : "Renomear arquivo");
-        titleView.setText(entry.directory ? "Trocar nome da pasta" : "Trocar nome do arquivo");
+        titleView.setText(entry.directory ? "Trocar nome da pasta" : "تغيير اسم الملف");
         pathView.setText(entry.relativePath);
         input.setText(entry.displayName);
         input.setSelection(entry.displayName.length());
@@ -508,8 +508,8 @@ public class EditorFragment extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Excluir " + label)
                 .setMessage("Excluir " + entry.displayName + "?\n\n" + entry.relativePath)
-                .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Excluir", (dialog, which) -> {
+                .setNegativeButton("إلغاء", null)
+                .setPositiveButton("حذف", (dialog, which) -> {
                     HostFileManager.FileActionResult result = HostFileManager.deleteEntry(entry.relativePath);
                     if (!result.success) {
                         Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show();
@@ -553,7 +553,7 @@ public class EditorFragment extends Fragment {
 
     private String buildTypeBadge(HostFileManager.BrowserEntry entry) {
         if (entry.directory) {
-            return "PASTA";
+            return "مجلد";
         }
         String extension = extensionOf(entry.displayName);
         if (TextUtils.isEmpty(extension)) {

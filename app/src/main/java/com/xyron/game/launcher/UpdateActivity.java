@@ -99,7 +99,7 @@ public class UpdateActivity extends SampActivity {
             if (msg.what == 4) {
                 UpdateActivity.UpdateStatus valueOf = UpdateActivity.UpdateStatus.valueOf(msg.getData().getString("status", ""));
                 if (valueOf == UpdateStatus.DownloadGameData) {
-                    ((TextView)findViewById(R.id.installation_text)).setText("Atualizando a data do jogo...");
+                    ((TextView)findViewById(R.id.installation_text)).setText("جاري تحديث بيانات اللعبة...");
                     Log.d("x1y2z", "statusname = " + valueOf);
                     long j = msg.getData().getLong("total");
                     long j2 = msg.getData().getLong("current");
@@ -121,7 +121,7 @@ public class UpdateActivity extends SampActivity {
                     progressBar.setMax((int) (j/1048576));
                     progressBar.setProgress((int) (j2/1048576));
                 } else if (valueOf == UpdateStatus.DownloadGame) {
-                    ((TextView)findViewById(R.id.installation_text)).setText("Atualizando o jogo...");
+                    ((TextView)findViewById(R.id.installation_text)).setText("جاري تحديث اللعبة...");
                     Log.d("x1y2z", "statusname = " + valueOf);
                     long j = msg.getData().getLong("total");
                     long j2 = msg.getData().getLong("current");
@@ -292,7 +292,7 @@ public class UpdateActivity extends SampActivity {
         findViewById(R.id.data_variant_panel).setVisibility(View.GONE);
         findViewById(R.id.update_progress_panel).setVisibility(View.VISIBLE);
         ((TextView)findViewById(R.id.installation_text)).setText("Preparando a data " + getSelectedVariantLabel() + "...");
-        ((TextView)findViewById(R.id.fileName)).setText("Conectando ao Hugging Face");
+        ((TextView)findViewById(R.id.fileName)).setText("جاري الاتصال بـ Hugging Face");
         ((TextView)findViewById(R.id.fileCount)).setText("");
         ((TextView)findViewById(R.id.fileProgressPercent)).setText("");
         ((ProgressBar)findViewById(R.id.download_progress)).setIndeterminate(true);

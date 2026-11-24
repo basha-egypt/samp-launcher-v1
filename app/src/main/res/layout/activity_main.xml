@@ -50,7 +50,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Inicio"
+                android:text="الرئيسية"
                 android:textColor="@color/launcher_text_muted"
                 android:textSize="7.2sp" />
         </LinearLayout>
@@ -137,7 +137,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Arquivos"
+                android:text="الملفات"
                 android:textColor="@color/launcher_text_muted"
                 android:textSize="7.2sp" />
         </LinearLayout>
@@ -166,7 +166,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Editor"
+                android:text="المحرر"
                 android:textColor="@color/launcher_text_muted"
                 android:textSize="7.2sp" />
         </LinearLayout>
@@ -224,7 +224,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Loja"
+                android:text="المتجر"
                 android:textColor="@color/launcher_text_muted"
                 android:textSize="7.2sp" />
         </LinearLayout>
@@ -282,7 +282,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Creditos"
+                android:text="الحقوق"
                 android:textColor="@color/launcher_text_muted"
                 android:textSize="7.2sp" />
         </LinearLayout>

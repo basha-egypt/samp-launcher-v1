@@ -226,7 +226,7 @@ public class MainActivity extends SampActivity {
     private void launchInstalledGameApk() {
         ServerConfigManager.ServerOption selectedServer = ServerConfigManager.getSelectedServer(this);
         if (selectedServer == null || !selectedServer.isValid()) {
-            Toast.makeText(this, "Adicione e selecione um servidor antes de abrir o game.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "أضف واختر سيرفراً قبل فتح اللعبة.", Toast.LENGTH_LONG).show();
             openTab(TAB_SETTINGS);
             return;
         }

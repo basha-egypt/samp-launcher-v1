@@ -159,7 +159,7 @@ public class ServersFragment extends Fragment {
         metaView.setText(buildMeta(liveInfo));
         addressView.setText(option.getAddress());
 
-        selectAction.setText(isSelected ? "Ativo" : "Selecionar");
+        selectAction.setText(isSelected ? "نشط" : "اختيار");
         selectAction.setAlpha(isSelected ? 0.92f : 1.0f);
         selectAction.setOnTouchListener(new ButtonAnimator(context, selectAction));
         selectAction.setOnClickListener(v -> {

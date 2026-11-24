@@ -98,7 +98,7 @@
             android:minWidth="96dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Selecionar"
+            android:text="اختيار"
             android:textColor="@android:color/white"
             android:textSize="9sp" />
 
@@ -113,7 +113,7 @@
             android:minWidth="90dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Remover"
+            android:text="إزالة"
             android:textColor="@android:color/white"
             android:textSize="9sp" />
     </LinearLayout>

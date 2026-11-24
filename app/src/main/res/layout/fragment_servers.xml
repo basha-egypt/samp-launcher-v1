@@ -45,7 +45,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="5dp"
-                        android:text="Servidores"
+                        android:text="السيرفرات"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="8sp" />
@@ -60,7 +60,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="5dp"
-                        android:text="ATUALIZACAO AO VIVO"
+                        android:text="تحديث مباشر"
                         android:textAllCaps="true"
                         android:textColor="@color/launcher_text_secondary"
                         android:textSize="7.5sp" />
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Servidores salvos"
+                    android:text="السيرفرات المحفوظة"
                     android:textColor="@android:color/white"
                     android:textSize="21sp" />
 
@@ -82,7 +82,7 @@
                     android:maxWidth="700dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:lineSpacingExtra="2dp"
-                    android:text="Gerencie sua lista, veja status em tempo real e escolha qual IP o jogo deve abrir."
+                    android:text="أدر قائمتك، شاهد الحالة مباشرة واختر الـ IP الذي تفتح به اللعبة."
                     android:textColor="@color/launcher_text_secondary"
                     android:textSize="9.5sp" />
 
@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Biblioteca local"
+                            android:text="مكتبة محلية"
                             android:textColor="@android:color/white"
                             android:textSize="10sp" />
 
@@ -113,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/montserrat_black"
-                            android:text="Lista local"
+                            android:text="قائمة محلية"
                             android:textColor="@color/launcher_accent_gold_bright"
                             android:textSize="13sp" />
 
@@ -122,7 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Cada IP entra na sequencia que voce salvar"
+                            android:text="كل IP يُضاف بالترتيب الذي تحفظه"
                             android:textColor="@color/launcher_text_muted"
                             android:textSize="8.5sp" />
                     </LinearLayout>
@@ -140,7 +140,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Query curta"
+                            android:text="استعلام مختصر"
                             android:textColor="@android:color/white"
                             android:textSize="10sp" />
 
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/montserrat_black"
-                            android:text="Status ao vivo"
+                            android:text="الحالة المباشرة"
                             android:textColor="@color/launcher_text_primary"
                             android:textSize="13sp" />
 
@@ -158,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Sem ficar preso em valor velho"
+                            android:text="دون التقيد بقيمة قديمة"
                             android:textColor="@color/launcher_text_muted"
                             android:textSize="8.5sp" />
                     </LinearLayout>
@@ -176,7 +176,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Troca imediata"
+                            android:text="تبديل فوري"
                             android:textColor="@android:color/white"
                             android:textSize="10sp" />
 
@@ -185,7 +185,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/montserrat_black"
-                            android:text="Entrada direta"
+                            android:text="دخول مباشر"
                             android:textColor="@color/launcher_text_primary"
                             android:textSize="13sp" />
 
@@ -194,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="O IP ativo vai direto para o jogo"
+                            android:text="الـ IP النشط يذهب مباشرة إلى اللعبة"
                             android:textColor="@color/launcher_text_muted"
                             android:textSize="8.5sp" />
                     </LinearLayout>
@@ -223,7 +223,7 @@
                     android:background="@drawable/launcher_console_surface"
                     android:fontFamily="@font/montserrat_medium"
                     android:padding="16dp"
-                    android:text="Nenhum servidor salvo ainda."
+                    android:text="لا يوجد سيرفر محفوظ بعد."
                     android:textColor="@color/launcher_text_secondary"
                     android:textSize="10sp"
                     android:visibility="gone" />
@@ -236,7 +236,7 @@
                     android:background="@drawable/home_server_select_button"
                     android:fontFamily="@font/montserrat_bold"
                     android:gravity="center"
-                    android:text="Adicionar servidor"
+                    android:text="إضافة سيرفر"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
                     android:visibility="gone" />

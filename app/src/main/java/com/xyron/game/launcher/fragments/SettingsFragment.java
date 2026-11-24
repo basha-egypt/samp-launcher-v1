@@ -69,9 +69,9 @@ public class SettingsFragment extends Fragment {
 
         if (reinstallButton != null) {
             if (isLauncherRole()) {
-                reinstallButton.setText("Abrir download do Game");
+                reinstallButton.setText("فتح تحميل اللعبة");
             } else if (isToolsRole()) {
-                reinstallButton.setText("Download fica no Game");
+                reinstallButton.setText("التحميل يتم في اللعبة");
             }
             reinstallButton.setOnTouchListener(new ButtonAnimator(getContext(), reinstallButton));
             reinstallButton.setOnClickListener(v -> handleDataAction());
@@ -209,12 +209,12 @@ public class SettingsFragment extends Fragment {
         }
 
         String nickname = readIniValue("client", "name", "");
-        nicknameValue.setText(nickname.isEmpty() ? "Nenhum nome definido" : nickname);
+        nicknameValue.setText(nickname.isEmpty() ? "لم يتم تحديد اسم" : nickname);
     }
 
     private void saveNickname(String nickname) {
         if (nickname.isEmpty()) {
-            Toast.makeText(getContext(), "Digite um nome para salvar no jogo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "اكتب اسماً لحفظه في اللعبة.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -238,7 +238,7 @@ public class SettingsFragment extends Fragment {
         }
 
         if (isToolsRole()) {
-            Toast.makeText(getContext(), "Baixe ou reinstale a data pelo APK News RP.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "حمّل أو أعد تثبيت البيانات عبر APK اللعبة.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -426,7 +426,7 @@ public class SettingsFragment extends Fragment {
                         ? input.getText().toString().trim()
                         : "";
                 if (nickname.isEmpty()) {
-                    Toast.makeText(getContext(), "Digite um nome para salvar no jogo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "اكتب اسماً لحفظه في اللعبة.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 saveNickname(nickname);

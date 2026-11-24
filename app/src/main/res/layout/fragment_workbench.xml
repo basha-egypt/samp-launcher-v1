@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Ferramentas do servidor"
+                    android:text="أدوات السيرفر"
                     android:textColor="@android:color/white"
                     android:textSize="21sp" />
 
@@ -85,7 +85,7 @@
                     android:maxWidth="760dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:lineSpacingExtra="3dp"
-                    android:text="Edite configuracoes, crie arquivos, gere backup e acompanhe logs do host."
+                    android:text="عدّل الإعدادات، أنشئ الملفات، خذ نسخة احتياطية وتابع سجلات الهوست."
                     android:textColor="@color/launcher_text_secondary"
                     android:textSize="9.5sp" />
 
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Configurador visual do servidor"
+                        android:text="إعداد السيرفر المرئي"
                         android:textColor="@android:color/white"
                         android:textSize="11sp" />
 
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Esses campos atualizam o server.cfg e o config.json juntos."
+                        android:text="هذه الحقول تحدّث server.cfg وconfig.json معاً."
                         android:textColor="@color/launcher_text_secondary"
                         android:textSize="8.7sp" />
 
@@ -144,7 +144,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Nome do servidor"
+                                android:text="اسم السيرفر"
                                 android:textColor="@android:color/white"
                                 android:textSize="9sp" />
 
@@ -155,7 +155,7 @@
                                 android:layout_marginTop="8dp"
                                 android:background="@drawable/launcher_field_surface_dark"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:hint="News RP Local Host"
+                                android:hint="استضافة محلية"
                                 android:imeOptions="actionNext|flagNoExtractUi"
                                 android:paddingStart="14dp"
                                 android:paddingEnd="14dp"
@@ -214,7 +214,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Language"
+                                android:text="اللغة"
                                 android:textColor="@android:color/white"
                                 android:textSize="9sp" />
 
@@ -246,7 +246,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Max players"
+                                android:text="أقصى عدد لاعبين"
                                 android:textColor="@android:color/white"
                                 android:textSize="9sp" />
 
@@ -285,7 +285,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Script principal"
+                                android:text="السكربت الرئيسي"
                                 android:textColor="@android:color/white"
                                 android:textSize="9sp" />
 
@@ -317,7 +317,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Senha (opcional)"
+                                android:text="كلمة المرور (اختياري)"
                                 android:textColor="@android:color/white"
                                 android:textSize="9sp" />
 
@@ -328,7 +328,7 @@
                                 android:layout_marginTop="8dp"
                                 android:background="@drawable/launcher_field_surface_dark"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:hint="Deixe vazio para livre"
+                                android:hint="اتركه فارغاً ليكون مفتوحاً"
                                 android:imeOptions="actionNext|flagNoExtractUi"
                                 android:paddingStart="14dp"
                                 android:paddingEnd="14dp"
@@ -349,7 +349,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Map name (opcional)"
+                            android:text="اسم الخريطة (اختياري)"
                             android:textColor="@android:color/white"
                             android:textSize="9sp" />
 
@@ -360,7 +360,7 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/launcher_field_surface_dark"
                             android:fontFamily="@font/montserrat_bold"
-                            android:hint="Los Santos / Roleplay / Drift"
+                            android:hint="لوس سانتوس / رول بلاي / دريفت"
                             android:imeOptions="actionDone|flagNoExtractUi"
                             android:paddingStart="14dp"
                             android:paddingEnd="14dp"
@@ -449,7 +449,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="LAN mode"
+                                android:text="وضع الشبكة المحلية"
                                 android:textColor="@color/launcher_text_primary"
                                 android:textSize="9sp" />
 
@@ -471,7 +471,7 @@
                         android:minWidth="176dp"
                         android:paddingStart="18dp"
                         android:paddingEnd="18dp"
-                        android:text="Salvar configuracoes"
+                        android:text="حفظ الإعدادات"
                         android:textColor="@android:color/white"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -494,7 +494,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Criacao rapida"
+                            android:text="إنشاء سريع"
                             android:textColor="@android:color/white"
                             android:textSize="11sp" />
 
@@ -503,7 +503,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Crie arquivos base do servidor sem precisar sair para o gerenciador."
+                            android:text="أنشئ ملفات السيرفر الأساسية دون الحاجة للخروج إلى مدير الملفات."
                             android:textColor="@color/launcher_text_secondary"
                             android:textSize="8.7sp" />
 
@@ -521,7 +521,7 @@
                                 android:background="@drawable/home_server_select_button"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:gravity="center"
-                                android:text="Nova GM"
+                                android:text="مود جديد"
                                 android:textColor="@android:color/white"
                                 android:textSize="8.8sp" />
 
@@ -534,7 +534,7 @@
                                 android:background="@drawable/home_action_secondary"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:gravity="center"
-                                android:text="Novo include"
+                                android:text="include جديد"
                                 android:textColor="@android:color/white"
                                 android:textSize="8.8sp" />
                         </LinearLayout>
@@ -553,7 +553,7 @@
                                 android:background="@drawable/home_action_text_button"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:gravity="center"
-                                android:text="Novo scriptfile"
+                                android:text="scriptfile جديد"
                                 android:textColor="@android:color/white"
                                 android:textSize="8.8sp" />
 
@@ -566,7 +566,7 @@
                                 android:background="@drawable/home_action_text_button"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:gravity="center"
-                                android:text="Novo cfg"
+                                android:text="cfg جديد"
                                 android:textColor="@android:color/white"
                                 android:textSize="8.8sp" />
                         </LinearLayout>
@@ -579,7 +579,7 @@
                             android:background="@drawable/launcher_console_surface"
                             android:fontFamily="@font/montserrat_medium"
                             android:padding="12dp"
-                            android:text="A criacao rapida gera templates basicos para voce continuar no Editor ou em Arquivos."
+                            android:text="الإنشاء السريع يولّد قوالب أساسية لتكمل التعديل في المحرر أو الملفات."
                             android:textColor="@color/launcher_text_secondary"
                             android:textSize="8.8sp" />
                     </LinearLayout>
@@ -597,7 +597,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Atalhos dev"
+                            android:text="اختصارات المطور"
                             android:textColor="@android:color/white"
                             android:textSize="11sp" />
 
@@ -606,7 +606,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Pule direto para o ponto do launcher onde voce vai continuar a mexer."
+                            android:text="انتقل مباشرة إلى القسم الذي تريد متابعة العمل فيه."
                             android:textColor="@color/launcher_text_secondary"
                             android:textSize="8.7sp" />
 
@@ -618,7 +618,7 @@
                             android:background="@drawable/home_server_select_button"
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
-                            android:text="Abrir editor"
+                            android:text="فتح المحرر"
                             android:textColor="@android:color/white"
                             android:textSize="8.8sp" />
 
@@ -630,7 +630,7 @@
                             android:background="@drawable/home_action_secondary"
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
-                            android:text="Abrir arquivos"
+                            android:text="فتح الملفات"
                             android:textColor="@android:color/white"
                             android:textSize="8.8sp" />
 
@@ -642,7 +642,7 @@
                             android:background="@drawable/home_action_text_button"
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
-                            android:text="Abrir host"
+                            android:text="فتح الهوست"
                             android:textColor="@android:color/white"
                             android:textSize="8.8sp" />
                     </LinearLayout>
@@ -660,7 +660,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="Backups e logs"
+                        android:text="النسخ الاحتياطي والسجلات"
                         android:textColor="@android:color/white"
                         android:textSize="11sp" />
 
@@ -691,7 +691,7 @@
                             android:minWidth="156dp"
                             android:paddingStart="18dp"
                             android:paddingEnd="18dp"
-                            android:text="Criar backup .zip"
+                            android:text="إنشاء نسخة احتياطية .zip"
                             android:textColor="@android:color/white"
                             android:textSize="8.8sp" />
 
@@ -706,7 +706,7 @@
                             android:minWidth="120dp"
                             android:paddingStart="18dp"
                             android:paddingEnd="18dp"
-                            android:text="Atualizar"
+                            android:text="تحديث"
                             android:textColor="@android:color/white"
                             android:textSize="8.8sp" />
                     </LinearLayout>

@@ -33,17 +33,17 @@ public class DonateFragment extends Fragment {
         selectedOfferSummary = view.findViewById(R.id.selected_offer_summary);
         donateButton = view.findViewById(R.id.button_donate);
 
-        bindOfferCard(view.findViewById(R.id.offer_card_start), "50", "Pacote Inicial");
-        bindOfferCard(view.findViewById(R.id.offer_card_plus), "100", "Pacote Plus");
-        bindOfferCard(view.findViewById(R.id.offer_card_gold), "250", "Pacote Gold");
-        bindOfferCard(view.findViewById(R.id.offer_card_elite), "500", "Pacote Elite");
+        bindOfferCard(view.findViewById(R.id.offer_card_start), "50", "الباقة الأساسية");
+        bindOfferCard(view.findViewById(R.id.offer_card_plus), "100", "باقة بلس");
+        bindOfferCard(view.findViewById(R.id.offer_card_gold), "250", "باقة جولد");
+        bindOfferCard(view.findViewById(R.id.offer_card_elite), "500", "باقة إيليت");
 
         if (donateButton != null) {
             donateButton.setOnTouchListener(new ButtonAnimator(requireContext(), donateButton));
             donateButton.setOnClickListener(v -> continueToShop());
         }
 
-        selectOffer(0, "50", "Pacote Inicial");
+        selectOffer(0, "50", "الباقة الأساسية");
         return view;
     }
 

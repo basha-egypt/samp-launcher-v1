@@ -209,7 +209,7 @@ public class HostFragment extends Fragment {
             return;
         }
         if (hostActionInFlight || remoteTunnelActionInFlight) {
-            Toast.makeText(getContext(), "Aguarde a acao atual terminar.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "انتظر حتى ينتهي الإجراء الحالي.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -325,7 +325,7 @@ public class HostFragment extends Fragment {
 
         String lanIp = LocalHostManager.getBestLanAddress();
         if (TextUtils.isEmpty(lanIp)) {
-            Toast.makeText(getContext(), "Conecte o aparelho na Wi-Fi ou hotspot para gerar um IP LAN.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "اتصل بشبكة Wi-Fi أو نقطة اتصال لتوليد IP محلي.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -333,7 +333,7 @@ public class HostFragment extends Fragment {
         ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboard != null) {
             clipboard.setPrimaryClip(ClipData.newPlainText("xyron-host-lan", address));
-            Toast.makeText(getContext(), "Endereco LAN copiado: " + address, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "تم نسخ عنوان LAN: " + address, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -452,15 +452,15 @@ public class HostFragment extends Fragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
-                .setTitle("Acesso remoto")
+                .setTitle("وصول عن بُعد")
                 .setMessage(message.toString())
-                .setNegativeButton("Fechar", null)
+                .setNegativeButton("إغلاق", null)
                 .setNeutralButton("Copiar IP LAN", (dialog, which) -> copyLanAddress());
 
         if (!TextUtils.isEmpty(tunnelState.publicUrl)) {
             builder.setPositiveButton("Copiar tunel", (dialog, which) -> copyRemoteTunnelAddress());
         } else if (termuxReady || internalTunnelSupported) {
-            builder.setPositiveButton("Abrir arquivos", (dialog, which) -> openFilesTab());
+            builder.setPositiveButton("فتح الملفات", (dialog, which) -> openFilesTab());
         }
 
         builder.show();
@@ -510,11 +510,11 @@ public class HostFragment extends Fragment {
             } else if (hostErrored) {
                 statusTitle.setText("Falha ao ligar host");
             } else if (!state.workspacePrepared) {
-                statusTitle.setText("Host local em preparacao");
+                statusTitle.setText("الهوست المحلي قيد التجهيز");
             } else if (HostShellEngine.hasRuntimeCandidate(requireContext())) {
                 statusTitle.setText("Runtime local encontrado");
             } else {
-                statusTitle.setText("Base local pronta");
+                statusTitle.setText("القاعدة المحلية جاهزة");
             }
         }
 
@@ -524,7 +524,7 @@ public class HostFragment extends Fragment {
             } else if (hostRunning || hostStarting) {
                 statusBadge.setText("INICIANDO");
             } else if (hostErrored) {
-                statusBadge.setText("ERRO");
+                statusBadge.setText("خطأ");
             } else if (HostShellEngine.hasRuntimeCandidate(requireContext())) {
                 statusBadge.setText("PRONTO");
             } else {
@@ -548,21 +548,21 @@ public class HostFragment extends Fragment {
             } else if (!state.workspacePrepared) {
                 statusBody.setText("Toque em Ligar host para preparar a base, ativar o loopback e subir o servidor local automaticamente.");
             } else if (HostShellEngine.hasRuntimeCandidate(requireContext())) {
-                statusBody.setText("A base ja foi criada e o runtime ARM esta no pacote. O launcher ja consegue subir tudo em um toque.");
+                statusBody.setText("تم إنشاء القاعدة وملف التشغيل ARM موجود في الحزمة. يمكن للانشر تشغيل كل شيء بلمسة واحدة.");
             } else {
-                statusBody.setText("A estrutura local ja existe, mas esta build ainda nao trouxe um runtime ARM compativel para executar o host.");
+                statusBody.setText("البنية المحلية موجودة، لكن هذه النسخة لا تتضمن runtime ARM متوافقاً لتشغيل الهوست.");
             }
         }
 
         if (hostActionNote != null) {
             if (hostActionInFlight) {
-                hostActionNote.setText("Aguarde a acao atual terminar antes de tocar de novo.");
+                hostActionNote.setText("انتظر حتى ينتهي الإجراء الحالي قبل الضغط مجدداً.");
             } else if (hostReady) {
                 hostActionNote.setText("Host online. O botao de ligar fica travado ate voce desligar o servidor.");
             } else if (hostRunning || hostStarting) {
                 hostActionNote.setText("O servidor ja recebeu o comando de start. Espere a tela virar para o estado online.");
             } else if (hostErrored) {
-                hostActionNote.setText("A ultima tentativa falhou. Toque em Ligar host para refazer os links internos e tentar de novo.");
+                hostActionNote.setText("فشلت المحاولة الأخيرة. اضغط على تشغيل الهوست لإعادة ربط المسارات والمحاولة مجدداً.");
             } else {
                 hostActionNote.setText("Fluxo rapido: ligue o host, copie o LAN para a mesma rede e use o tunel remoto para testar pela internet.");
             }
@@ -601,7 +601,7 @@ public class HostFragment extends Fragment {
             } else if (hostStarting || hostRunning) {
                 bootButton.setText("Ligando host...");
             } else {
-                bootButton.setText("Ligar host");
+                bootButton.setText("تشغيل الهوست");
             }
         }
 
@@ -609,9 +609,9 @@ public class HostFragment extends Fragment {
             stopButton.setEnabled(canStop);
             stopButton.setAlpha(canStop ? 1f : 0.48f);
             if (hostActionInFlight && hostBusyOrOnline) {
-                stopButton.setText("Desligando...");
+                stopButton.setText("جاري الإيقاف...");
             } else {
-                stopButton.setText("Desligar host");
+                stopButton.setText("إيقاف الهوست");
             }
         }
 
@@ -621,13 +621,13 @@ public class HostFragment extends Fragment {
             remoteTunnelButton.setEnabled(!remoteTunnelActionInFlight);
             remoteTunnelButton.setAlpha(remoteTunnelActionInFlight ? 0.56f : 1f);
             if (remoteTunnelActionInFlight) {
-                remoteTunnelButton.setText("Abrindo tunel...");
+                remoteTunnelButton.setText("جاري فتح النفق...");
             } else if (tunnelRunning && !TextUtils.isEmpty(tunnelState.publicUrl)) {
-                remoteTunnelButton.setText("Copiar remoto");
+                remoteTunnelButton.setText("نسخ عن بُعد");
             } else if (tunnelRunning || tunnelState.isStarting()) {
-                remoteTunnelButton.setText("Abrindo...");
+                remoteTunnelButton.setText("جاري الفتح...");
             } else {
-                remoteTunnelButton.setText("Acesso remoto");
+                remoteTunnelButton.setText("وصول عن بُعد");
             }
         }
     }

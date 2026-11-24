@@ -169,7 +169,7 @@ public class HostFilesFragment extends Fragment {
         nameView.setText(entry.displayName);
         metaView.setText(buildMeta(entry));
         pathView.setText(entry.relativePath);
-        openAction.setText(entry.directory ? "Abrir pasta" : (entry.editableText ? "Editar" : "Detalhes"));
+        openAction.setText(entry.directory ? "فتح المجلد" : (entry.editableText ? "تعديل" : "التفاصيل"));
 
         bindAction(surface, () -> openEntry(entry));
         bindAction(openAction, () -> openEntry(entry));
@@ -191,7 +191,7 @@ public class HostFilesFragment extends Fragment {
             return "ITEM";
         }
         if (entry.directory) {
-            return "PASTA";
+            return "مجلد";
         }
         String name = entry.displayName == null ? "" : entry.displayName;
         int dot = name.lastIndexOf('.');
@@ -223,7 +223,7 @@ public class HostFilesFragment extends Fragment {
                             + "\nTamanho: " + HostFileManager.formatSize(entry.sizeBytes)
                             + "\nCaminho: " + entry.relativePath
                             + "\n\nEsse arquivo nao e editavel como texto dentro do launcher.")
-                    .setPositiveButton("Fechar", null)
+                    .setPositiveButton("إغلاق", null)
                     .show();
             return;
         }
@@ -333,8 +333,8 @@ public class HostFilesFragment extends Fragment {
         TextView cancelButton = dialogView.findViewById(R.id.dialog_host_create_cancel);
         TextView saveButton = dialogView.findViewById(R.id.dialog_host_create_save);
 
-        badgeView.setText(folder ? "Nova pasta" : "Novo arquivo");
-        titleView.setText(folder ? "Criar pasta nesta pasta atual" : "Criar arquivo nesta pasta atual");
+        badgeView.setText(folder ? "مجلد جديد" : "ملف جديد");
+        titleView.setText(folder ? "إنشاء مجلد في المجلد الحالي" : "إنشاء ملف في المجلد الحالي");
         pathView.setText(HostFileManager.getDisplayPath(currentRelativePath));
         inputView.setHint(folder ? "Nome da pasta" : "Nome do arquivo");
 
@@ -400,7 +400,7 @@ public class HostFilesFragment extends Fragment {
                 return;
             }
 
-            Toast.makeText(requireContext(), buildApplyMessage("Arquivo salvo."), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), buildApplyMessage("تم حفظ الملف."), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             refreshFiles();
         });
@@ -426,7 +426,7 @@ public class HostFilesFragment extends Fragment {
         TextView saveButton = dialogView.findViewById(R.id.dialog_host_rename_save);
 
         badgeView.setText(entry.directory ? "Renomear pasta" : "Renomear arquivo");
-        titleView.setText(entry.directory ? "Trocar nome da pasta" : "Trocar nome do arquivo");
+        titleView.setText(entry.directory ? "Trocar nome da pasta" : "تغيير اسم الملف");
         pathView.setText(entry.relativePath);
         input.setText(entry.displayName);
         input.setSelection(entry.displayName.length());
@@ -464,8 +464,8 @@ public class HostFilesFragment extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Excluir " + label)
                 .setMessage("Excluir " + entry.displayName + "?\n\n" + entry.relativePath)
-                .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Excluir", (dialog, which) -> {
+                .setNegativeButton("إلغاء", null)
+                .setPositiveButton("حذف", (dialog, which) -> {
                     HostFileManager.FileActionResult result = HostFileManager.deleteEntry(entry.relativePath);
                     if (!result.success) {
                         Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show();

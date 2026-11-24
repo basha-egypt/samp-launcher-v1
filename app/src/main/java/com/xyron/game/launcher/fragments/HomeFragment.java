@@ -119,11 +119,11 @@ public class HomeFragment extends Fragment {
 
         if (!hasServers) {
             if (selectServerButton != null) {
-                selectServerButton.setText("Adicionar servidor");
+                selectServerButton.setText("إضافة سيرفر");
             }
-            selectedServerName.setText("Sem servidor ativo");
+            selectedServerName.setText("لا يوجد سيرفر نشط");
             selectedServerAddress.setText("Toque em Adicionar servidor");
-            selectedServerHint.setText("Depois de salvar um IP, ele fica pronto para usar aqui.");
+            selectedServerHint.setText("بعد حفظ IP، يصبح جاهزاً للاستخدام هنا.");
             updateReadiness(hasGameData, false, false);
             return;
         }
@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment {
             if (selectServerButton != null) {
                 selectServerButton.setText("Escolher servidor");
             }
-            selectedServerName.setText("Sem servidor ativo");
+            selectedServerName.setText("لا يوجد سيرفر نشط");
             selectedServerAddress.setText("Escolha um IP salvo em Servidores");
             selectedServerHint.setText("O servidor escolhido fica aplicado no jogo automaticamente.");
             updateReadiness(hasGameData, true, false);
@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment {
         }
 
         if (selectServerButton != null) {
-            selectServerButton.setText("Trocar servidor");
+            selectServerButton.setText("تغيير السيرفر");
         }
         selectedServerName.setText("Pronto para jogar");
         selectedServerAddress.setText(selectedServer.getAddress());
@@ -158,24 +158,24 @@ public class HomeFragment extends Fragment {
 
         if (!hasGameData) {
             nextStepAction = NEXT_STEP_UPDATE_DATA;
-            readinessTitle.setText("Dados pendentes");
-            readinessBody.setText("Baixe os arquivos do jogo");
-            nextStepButton.setText("Baixar dados");
+            readinessTitle.setText("بيانات معلّقة");
+            readinessBody.setText("حمّل ملفات اللعبة");
+            nextStepButton.setText("تحميل البيانات");
             return;
         }
 
         if (!hasServers) {
             nextStepAction = NEXT_STEP_ADD_SERVER;
             readinessTitle.setText("Falta servidor");
-            readinessBody.setText("Adicione um IP:PORTA");
-            nextStepButton.setText("Adicionar servidor");
+            readinessBody.setText("أضف IP:المنفذ");
+            nextStepButton.setText("إضافة سيرفر");
             return;
         }
 
         if (!hasSelectedServer) {
             nextStepAction = NEXT_STEP_CHOOSE_SERVER;
             readinessTitle.setText("Escolha o servidor");
-            readinessBody.setText("Defina o IP ativo");
+            readinessBody.setText("حدد الـ IP النشط");
             nextStepButton.setText("Escolher servidor");
             return;
         }
@@ -183,8 +183,8 @@ public class HomeFragment extends Fragment {
         nextStepAction = NEXT_STEP_PLAY;
         if (isLauncherRole()) {
             readinessTitle.setText("Servidor pronto");
-            readinessBody.setText("Abre pelo APK Game");
-            nextStepButton.setText("Abrir Game");
+            readinessBody.setText("فتح عبر APK اللعبة");
+            nextStepButton.setText("فتح اللعبة");
         } else {
             readinessTitle.setText("Tudo pronto");
             readinessBody.setText("Pode entrar no jogo");
