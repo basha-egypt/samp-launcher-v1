@@ -178,10 +178,12 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
     private boolean hudShadowsEnabled = true;
     private boolean hudEffectsEnabled = true;
     private int hudCameraDown = 0;
-    private String hudResolution = "native";
+    private int hudResolutionPercentPercent = 100;
+    private static final int HUD_RESOLUTION_MIN = 25;
+    private static final int HUD_RESOLUTION_MAX = 100;
     private TextView hudCameraDownValue;
     private SeekBar hudCameraDownSeek;
-    private TextView hudResolutionToggle;
+    private TextView hudResolutionPercentToggle;
     private Runnable phoneOverlayWarmupRunnable;
     private Runnable inventoryOverlayWarmupRunnable;
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
@@ -1220,17 +1222,20 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
                 public void onStopTrackingTouch(SeekBar seekBar) {}
             });
         }
-        if (hudResolutionToggle != null) {
-            hudResolutionToggle.setOnClickListener(v -> {
-                String[] modes = {"native", "720p", "900p", "1080p"};
-                int idx = 0;
-                for (int i = 0; i < modes.length; i++) {
-                    if (modes[i].equalsIgnoreCase(hudResolution)) {
-                        idx = i;
+        if (hudResolutionPercentToggle != null) {
+            hudResolutionPercentToggle.setOnClickListener(v -> {
+                int[] steps = {25, 50, 75, 100};
+                int nextIdx = 0;
+                for (int i = 0; i < steps.length; i++) {
+                    if (hudResolutionPercent < steps[i]) {
+                        nextIdx = i;
                         break;
                     }
+                    if (i == steps.length - 1) {
+                        nextIdx = 0;
+                    }
                 }
-                hudResolution = modes[(idx + 1) % modes.length];
+                hudResolutionPercent = clampInt(steps[nextIdx], 0, HUD_RESOLUTION_MAX);
                 syncHudRenderSettingsUi();
             });
         }
@@ -1273,8 +1278,8 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
         hudShadowsEnabled = preferences.getBoolean("shadows", hudShadowsEnabled);
         hudEffectsEnabled = preferences.getBoolean("effects", hudEffectsEnabled);
         hudCameraDown = clampInt(preferences.getInt("camera_down", hudCameraDown), 0, 45);
-        String savedRes = preferences.getString("resolution", hudResolution);
-        hudResolution = (savedRes == null || savedRes.trim().isEmpty()) ? "native" : savedRes.trim();
+        int savedRes = preferences.getInt("resolution_percent", preferences.getInt("resolution", hudResolutionPercent));
+        hudResolutionPercent = clampInt(savedRes, 0, HUD_RESOLUTION_MAX);
     }
 
     private void saveHudRenderSettings() {
@@ -1286,7 +1291,7 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
                 .putBoolean("shadows", hudShadowsEnabled)
                 .putBoolean("effects", hudEffectsEnabled)
                 .putInt("camera_down", hudCameraDown)
-                .putString("resolution", hudResolution)
+                .putInt("resolution_percent", clampInt(hudResolutionPercent, 0, HUD_RESOLUTION_MAX)).putInt("resolution", clampInt(hudResolutionPercent, 0, HUD_RESOLUTION_MAX))
                 .apply();
         writeHudRenderSettingsFile();
     }
@@ -1318,16 +1323,59 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
     }
 
     private void applyHudRenderSettingsRuntime() {
+        int resPct = clampInt(hudResolutionPercent, 0, HUD_RESOLUTION_MAX);
+        hudResolutionPercent = resPct;
         runtimeLowRamMode = detectLowRamMode()
                 || hudQuality == HUD_QUALITY_FPS
-                || !hudEffectsEnabled;
+                || !hudEffectsEnabled
+                || resPct <= 50;
         if (getWindow() != null) {
             android.view.WindowManager.LayoutParams params = getWindow().getAttributes();
             params.preferredRefreshRate = (float) hudFpsLimit;
             getWindow().setAttributes(params);
         }
+        applyResolutionPercentToSurfaces(resPct);
         updateRuntimeOverlayExecutionState();
         hideSystemUI();
+    }
+
+    private void applyResolutionPercentToSurfaces(int percent) {
+        int clamped = clampInt(percent, 0, HUD_RESOLUTION_MAX);
+        android.view.View rootView = getWindow() != null ? getWindow().getDecorView() : hud_main;
+        if (rootView == null) {
+            return;
+        }
+        android.util.DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int baseWidth = Math.max(320, metrics.widthPixels);
+        int baseHeight = Math.max(240, metrics.heightPixels);
+        // Clamp minimum effective scale so surface remains visible even if user sets 0%
+        int effectivePct = Math.max(HUD_RESOLUTION_MIN, clamped);
+        int targetW = Math.max(320, Math.round(baseWidth * (effectivePct / 100f)));
+        int targetH = Math.max(240, Math.round(baseHeight * (effectivePct / 100f)));
+        applyResolutionToViewHierarchy(rootView, targetW, targetH, clamped >= HUD_RESOLUTION_MAX);
+    }
+
+    private void applyResolutionToViewHierarchy(android.view.View view, int targetW, int targetH, boolean isNativeFull) {
+        if (view == null) {
+            return;
+        }
+        if (view instanceof android.view.SurfaceView) {
+            android.view.SurfaceView sv = (android.view.SurfaceView) view;
+            android.view.SurfaceHolder holder = sv.getHolder();
+            if (holder != null) {
+                if (isNativeFull) {
+                    holder.setSizeFromLayout();
+                } else {
+                    holder.setFixedSize(targetW, targetH);
+                }
+            }
+        }
+        if (view instanceof android.view.ViewGroup) {
+            android.view.ViewGroup group = (android.view.ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyResolutionToViewHierarchy(group.getChildAt(i), targetW, targetH, isNativeFull);
+            }
+        }
     }
 
     private String hudQualityLabel() {
@@ -1356,8 +1404,8 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
         if (hudCameraDownSeek != null) {
             hudCameraDownSeek.setProgress(clampInt(hudCameraDown, 0, 45));
         }
-        if (hudResolutionToggle != null) {
-            hudResolutionToggle.setText("الريزولوشن: " + hudResolution);
+        if (hudResolutionPercentToggle != null) {
+            hudResolutionPercentToggle.setText("الريزولوشن: " + clampInt(hudResolutionPercent, 0, HUD_RESOLUTION_MAX) + "%");
         }
     }
 

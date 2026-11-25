@@ -783,7 +783,7 @@
                 android:background="@drawable/launcher_field_surface_dark"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:gravity="center"
-                android:text="الريزولوشن: native"
+                android:text="الريزولوشن: 100%"
                 android:textColor="#D4DEE4"
                 android:textSize="10sp" />
 

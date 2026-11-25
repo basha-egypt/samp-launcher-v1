@@ -479,15 +479,18 @@ public class SettingsFragment extends Fragment {
             });
         }
         if (mResolutionSpinner != null && getActivity() != null) {
-            String[] resOptions = {"native", "720p", "900p", "1080p"};
+            String[] resOptions = {"0%", "25%", "50%", "75%", "100%"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.spinner_item, resOptions);
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             mResolutionSpinner.setAdapter(adapter);
             mResolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View itemView, int position, long id) {
-                    String chosen = resOptions[Math.max(0, Math.min(resOptions.length - 1, position))];
-                    saveRenderPrefString("resolution", chosen);
+                    int[] pctValues = {0, 25, 50, 75, 100};
+                    int idx = Math.max(0, Math.min(pctValues.length - 1, position));
+                    int chosenPct = Math.max(0, Math.min(100, pctValues[idx]));
+                    saveRenderPrefInt("resolution_percent", chosenPct);
+                    saveRenderPrefInt("resolution", chosenPct);
                     writeRenderSettingsIni();
                 }
                 @Override public void onNothingSelected(AdapterView<?> parent) {}
@@ -501,7 +504,8 @@ public class SettingsFragment extends Fragment {
         SharedPreferences prefs = requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE);
         boolean shadows = prefs.getBoolean("shadows", true);
         int camDown = Math.max(0, Math.min(45, prefs.getInt("camera_down", 0)));
-        String res = prefs.getString("resolution", "native");
+        int resPct = Math.max(0, Math.min(100, prefs.getInt("resolution_percent", prefs.getInt("resolution", 100))));
+        String res = resPct + "%";
         if (mShadowsSwitch != null && mShadowsSwitch.isChecked() != shadows) {
             mShadowsSwitch.setChecked(shadows);
         }
@@ -512,7 +516,7 @@ public class SettingsFragment extends Fragment {
             mCameraDownValue.setText(camDown + "°");
         }
         if (mResolutionSpinner != null) {
-            String[] resOptions = {"native", "720p", "900p", "1080p"};
+            String[] resOptions = {"0%", "25%", "50%", "75%", "100%"};
             for (int i = 0; i < resOptions.length; i++) {
                 if (resOptions[i].equalsIgnoreCase(res)) {
                     if (mResolutionSpinner.getSelectedItemPosition() != i) {
@@ -551,7 +555,9 @@ public class SettingsFragment extends Fragment {
             Wini wini = new Wini(file);
             wini.put("render", "shadows", prefs.getBoolean("shadows", true) ? 1 : 0);
             wini.put("render", "camera_down", prefs.getInt("camera_down", 0));
-            wini.put("render", "resolution", prefs.getString("resolution", "native"));
+            int rPct = Math.max(0, Math.min(100, prefs.getInt("resolution_percent", prefs.getInt("resolution", 100))));
+            wini.put("render", "resolution_percent", rPct);
+            wini.put("render", "resolution", rPct);
             wini.store();
         } catch (IOException ignored) {}
     }
