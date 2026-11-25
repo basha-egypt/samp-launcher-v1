@@ -1,7 +1,9 @@
 package com.xyron.game.launcher.fragments;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,11 @@ public class SettingsFragment extends Fragment {
     private SwitchCompat mKeyboardSwitch;
     private SwitchCompat mVoipSwitch;
     private TextView nicknameValue;
+    private SwitchCompat mShadowsSwitch;
+    private SeekBar mCameraDownSeek;
+    private TextView mCameraDownValue;
+    private Spinner mResolutionSpinner;
+    private static final String RENDER_PREFS = "xyron_hud_render_settings";
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
@@ -52,6 +60,12 @@ public class SettingsFragment extends Fragment {
         TextView editProfileButton = view.findViewById(R.id.button_edit_profile);
         TextView addServerButton = view.findViewById(R.id.button_add_server_shortcut);
         TextView reinstallButton = view.findViewById(R.id.button_reinstall);
+
+        mShadowsSwitch = view.findViewById(R.id.launcher_shadows_switch);
+        mCameraDownSeek = view.findViewById(R.id.launcher_camera_down_seek);
+        mCameraDownValue = view.findViewById(R.id.launcher_camera_down_value);
+        mResolutionSpinner = view.findViewById(R.id.launcher_resolution_select);
+        configureRenderExtras(view);
 
         openSettingsFile();
         configureChatSpinner(view);
@@ -86,7 +100,7 @@ public class SettingsFragment extends Fragment {
                             "ANDROID_KEYBOARD",
                             checked
                     );
-                    saveIniValue("gui", "androidkeyboard23123", checked);
+                    saveIniValue("gui", "androidkeyboard", checked);
                 }
             });
         }

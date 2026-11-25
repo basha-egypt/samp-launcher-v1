@@ -373,6 +373,118 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
+                        android:text="الظلال والكاميرا والريزولوشن"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="تحكم في الظلال، زاوية الكاميرا للأسفل، ودقة العرض قبل دخول اللعبة."
+                        android:textColor="@color/launcher_text_muted"
+                        android:textSize="8.5sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/launcher_stat_tile"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="14dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="الظلال (Shadows)"
+                            android:textColor="@color/launcher_text_primary"
+                            android:textSize="9sp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/launcher_shadows_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textOff=""
+                            android:textOn="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="الكاميرا للأسفل"
+                            android:textColor="@color/launcher_text_primary"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/launcher_camera_down_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="0°"
+                            android:textColor="@android:color/white"
+                            android:textSize="9.5sp" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/launcher_camera_down_seek"
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="4dp"
+                        android:max="45"
+                        android:progress="0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="الريزولوشن"
+                            android:textColor="@color/launcher_text_primary"
+                            android:textSize="9sp" />
+
+                        <Spinner
+                            android:id="@+id/launcher_resolution_select"
+                            android:layout_width="148dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/style_spinner" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/home_server_card_surface"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text="الصيانة"
                         android:textColor="@android:color/white"
                         android:textSize="11sp" />

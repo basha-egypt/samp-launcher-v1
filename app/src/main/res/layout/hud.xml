@@ -741,6 +741,53 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat_alternates_bold"
+                    android:text="الكاميرا للأسفل"
+                    android:textColor="#F2D6A3"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/hud_camera_down_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_alternates_bold"
+                    android:text="0°"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/hud_camera_down_seek"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:max="45"
+                android:progress="0"
+                android:progressTint="#F59E0B"
+                android:thumbTint="#F2D6A3" />
+
+            <TextView
+                android:id="@+id/hud_resolution_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/launcher_field_surface_dark"
+                android:fontFamily="@font/montserrat_alternates_bold"
+                android:gravity="center"
+                android:text="الريزولوشن: native"
+                android:textColor="#D4DEE4"
+                android:textSize="10sp" />
+
+            <LinearLayout
                 android:id="@+id/hud_settings_actions"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"

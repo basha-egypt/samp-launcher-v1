@@ -177,6 +177,11 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
     private int hudQuality = HUD_QUALITY_BALANCED;
     private boolean hudShadowsEnabled = true;
     private boolean hudEffectsEnabled = true;
+    private int hudCameraDown = 0;
+    private String hudResolution = "native";
+    private TextView hudCameraDownValue;
+    private SeekBar hudCameraDownSeek;
+    private TextView hudResolutionToggle;
     private Runnable phoneOverlayWarmupRunnable;
     private Runnable inventoryOverlayWarmupRunnable;
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
@@ -1202,6 +1207,34 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
             });
         }
 
+        if (hudCameraDownSeek != null) {
+            hudCameraDownSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    hudCameraDown = clampInt(progress, 0, 45);
+                    syncHudRenderSettingsText();
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {}
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
+        }
+        if (hudResolutionToggle != null) {
+            hudResolutionToggle.setOnClickListener(v -> {
+                String[] modes = {"native", "720p", "900p", "1080p"};
+                int idx = 0;
+                for (int i = 0; i < modes.length; i++) {
+                    if (modes[i].equalsIgnoreCase(hudResolution)) {
+                        idx = i;
+                        break;
+                    }
+                }
+                hudResolution = modes[(idx + 1) % modes.length];
+                syncHudRenderSettingsUi();
+            });
+        }
+
         View closeButton = hud_main.findViewById(R.id.hud_settings_close);
         if (closeButton != null) {
             closeButton.setOnClickListener(v -> hideHudSettingsPanel());
@@ -1239,6 +1272,9 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
         );
         hudShadowsEnabled = preferences.getBoolean("shadows", hudShadowsEnabled);
         hudEffectsEnabled = preferences.getBoolean("effects", hudEffectsEnabled);
+        hudCameraDown = clampInt(preferences.getInt("camera_down", hudCameraDown), 0, 45);
+        String savedRes = preferences.getString("resolution", hudResolution);
+        hudResolution = (savedRes == null || savedRes.trim().isEmpty()) ? "native" : savedRes.trim();
     }
 
     private void saveHudRenderSettings() {
@@ -1249,6 +1285,8 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
                 .putInt("quality", hudQuality)
                 .putBoolean("shadows", hudShadowsEnabled)
                 .putBoolean("effects", hudEffectsEnabled)
+                .putInt("camera_down", hudCameraDown)
+                .putString("resolution", hudResolution)
                 .apply();
         writeHudRenderSettingsFile();
     }
@@ -1315,6 +1353,12 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
         setHudQualityButtonState(hudQualityHighButton, hudQuality == HUD_QUALITY_HIGH);
         setHudToggleState(hudShadowsToggle, "Sombras", hudShadowsEnabled);
         setHudToggleState(hudEffectsToggle, "Efeitos", hudEffectsEnabled);
+        if (hudCameraDownSeek != null) {
+            hudCameraDownSeek.setProgress(clampInt(hudCameraDown, 0, 45));
+        }
+        if (hudResolutionToggle != null) {
+            hudResolutionToggle.setText("الريزولوشن: " + hudResolution);
+        }
     }
 
     private void syncHudRenderSettingsText() {
@@ -1323,6 +1367,9 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
         }
         if (hudFpsLimitValue != null) {
             hudFpsLimitValue.setText(hudFpsLimit + " FPS");
+        }
+        if (hudCameraDownValue != null) {
+            hudCameraDownValue.setText(hudCameraDown + "°");
         }
         if (hudSettingsSummary != null) {
             String profile = hudQuality == HUD_QUALITY_FPS
@@ -2134,7 +2181,21 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
     }
 
     private void showMapOverlayInternal() {
-        hideMapOverlayInternal();
+        if (USE_NATIVE_IMGUI_OVERLAYS || iShowHud != 1) {
+            hideMapOverlayInternal();
+            return;
+        }
+        WebView overlay = ensureRuntimeOverlayConfigured("map");
+        if (overlay == null) {
+            return;
+        }
+        if (framewebMiniMap != null && framewebMiniMap.getVisibility() != View.VISIBLE) {
+            framewebMiniMap.setVisibility(View.VISIBLE);
+        }
+        if (overlay.getVisibility() != View.VISIBLE) {
+            overlay.setVisibility(View.VISIBLE);
+        }
+        updateRuntimeOverlayExecutionState();
     }
 
     private void hideMapOverlayInternal() {
@@ -2674,7 +2735,7 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
             return ensureRuntimeOverlayConfigured("weaponWheel");
         }
         if ("map".equalsIgnoreCase(overlayName)) {
-            return null;
+            return ensureRuntimeOverlayConfigured("map");
         }
         if ("phone".equalsIgnoreCase(overlayName)) {
             return ensureRuntimeOverlayConfigured("phone");
