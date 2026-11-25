@@ -45,7 +45,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UpdateService extends Service {
-    private static final String DEFAULT_DATA_VARIANT_ID = "lite";
+    private static final String DEFAULT_DATA_VARIANT_ID = "full";
 
     Messenger mMessenger;
     Messenger mActivityMessenger;

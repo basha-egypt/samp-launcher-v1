@@ -27,7 +27,7 @@ public final class DataVariantPreferences {
 
     public static String getSelectedVariantIdOrDefault(Context context) {
         String variantId = getSelectedVariantId(context);
-        return variantId.isEmpty() ? DATA_VARIANT_LITE : variantId;
+        return variantId.isEmpty() ? DATA_VARIANT_FULL : variantId;
     }
 
     public static void saveSelectedVariantId(Context context, String variantId) {
