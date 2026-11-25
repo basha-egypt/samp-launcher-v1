@@ -437,15 +437,47 @@ public class UpdateService extends Service {
         }
 
         boolean hasUsableRemoteFile = false;
+        Set<String> fullLocalPaths = new HashSet<>();
         for (JSONObject entry : fileEntries) {
             FilesData fileData = buildHuggingFaceFileData(entry, remotePaths);
             if (fileData != null) {
                 hasUsableRemoteFile = true;
+                fullLocalPaths.add(fileData.getPath());
                 enqueueMissingFile(fileData, mHuggingFaceResolveBaseUrl);
             }
         }
 
+        if ("data-full/files".equals(sanitize(mHuggingFaceFilesPathPrefix))) {
+            String litePrefix = "data-lite/files/";
+            for (JSONObject entry : fileEntries) {
+                String remotePath = sanitize(entry.optString("path"));
+                if (!remotePath.startsWith(litePrefix)) {
+                    continue;
+                }
+                String localPath = remotePath.substring(litePrefix.length());
+                if (localPath.isEmpty() || fullLocalPaths.contains(localPath)) {
+                    continue;
+                }
+                if (!isSampOrTxdFallbackPath(localPath)) {
+                    continue;
+                }
+                String fileName = new File(localPath).getName();
+                long size = Math.max(0L, entry.optLong("size", 0L));
+                String downloadUrl = joinUrl(mHuggingFaceResolveBaseUrl, remotePath);
+                FilesData liteFallbackData = new FilesData(fileName, size, localPath, downloadUrl);
+                hasUsableRemoteFile = true;
+                enqueueMissingFile(liteFallbackData, mHuggingFaceResolveBaseUrl);
+            }
+        }
+
         return hasUsableRemoteFile;
+    }
+
+    private boolean isSampOrTxdFallbackPath(String localPath) {
+        String normalized = localPath.replace('\\', '/').toLowerCase();
+        return "texdb/samp.img".equals(normalized)
+                || normalized.startsWith("texdb/samp/")
+                || normalized.startsWith("texdb/txd/");
     }
 
     private FilesData buildHuggingFaceFileData(JSONObject entry, Set<String> remotePaths) {
