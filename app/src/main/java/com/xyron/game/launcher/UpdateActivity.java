@@ -45,7 +45,7 @@ public class UpdateActivity extends SampActivity {
     boolean isBindingService = false;
     private UpdateMode mUpdateMode = UpdateMode.Undefined;
     public int mGpuType;
-    private String mSelectedDataVariantId = DATA_VARIANT_LITE;
+    private String mSelectedDataVariantId = DATA_VARIANT_FULL;
 
     private File mGameApk;
 
@@ -245,14 +245,9 @@ public class UpdateActivity extends SampActivity {
             bindDataVariantButton(R.id.data_variant_full, DATA_VARIANT_FULL);
 
             String savedVariantId = DataVariantPreferences.getSelectedVariantId(this);
-            if (DATA_VARIANT_FULL.equals(savedVariantId)) {
-                DataVariantPreferences.saveSelectedVariantId(this, DATA_VARIANT_LITE);
-                savedVariantId = DATA_VARIANT_LITE;
-            }
-
             if (savedVariantId.isEmpty()) {
-                savedVariantId = DATA_VARIANT_LITE;
-                DataVariantPreferences.saveSelectedVariantId(this, DATA_VARIANT_LITE);
+                savedVariantId = DATA_VARIANT_FULL;
+                DataVariantPreferences.saveSelectedVariantId(this, DATA_VARIANT_FULL);
             }
 
             startDataVariantUpdate(savedVariantId, false);
@@ -277,7 +272,7 @@ public class UpdateActivity extends SampActivity {
     private void startDataVariantUpdate(String variantId, boolean saveSelection) {
         String normalizedVariantId = DataVariantPreferences.normalizeVariantId(variantId);
         if (!DataVariantPreferences.isSupportedVariantId(normalizedVariantId)) {
-            normalizedVariantId = DATA_VARIANT_LITE;
+            normalizedVariantId = DATA_VARIANT_FULL;
         }
 
         mSelectedDataVariantId = normalizedVariantId;
