@@ -184,6 +184,10 @@ public class SAMP extends com.raiferoleplay.game.game.SAMP implements CustomKeyb
     private TextView hudCameraDownValue;
     private SeekBar hudCameraDownSeek;
     private TextView hudResolutionPercentToggle;
+    private static final int HUD_RESOLUTION_MAX = 100;
+    private static final int HUD_RESOLUTION_MIN = 25;
+    private int hudResolutionPercent = 100;
+
     private Runnable phoneOverlayWarmupRunnable;
     private Runnable inventoryOverlayWarmupRunnable;
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
