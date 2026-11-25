@@ -453,4 +453,106 @@ public class SettingsFragment extends Fragment {
             input.requestFocus();
         }
     }
+
+    private void configureRenderExtras(View view) {
+        if (mShadowsSwitch != null) {
+            mShadowsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                saveRenderPrefBool("shadows", isChecked);
+                writeRenderSettingsIni();
+            });
+        }
+        if (mCameraDownSeek != null) {
+            mCameraDownSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int val = Math.max(0, Math.min(45, progress));
+                    if (mCameraDownValue != null) {
+                        mCameraDownValue.setText(val + "°");
+                    }
+                    if (fromUser) {
+                        saveRenderPrefInt("camera_down", val);
+                        writeRenderSettingsIni();
+                    }
+                }
+                @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+                @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
+        }
+        if (mResolutionSpinner != null && getActivity() != null) {
+            String[] resOptions = {"native", "720p", "900p", "1080p"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.spinner_item, resOptions);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            mResolutionSpinner.setAdapter(adapter);
+            mResolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View itemView, int position, long id) {
+                    String chosen = resOptions[Math.max(0, Math.min(resOptions.length - 1, position))];
+                    saveRenderPrefString("resolution", chosen);
+                    writeRenderSettingsIni();
+                }
+                @Override public void onNothingSelected(AdapterView<?> parent) {}
+            });
+        }
+        syncRenderExtrasUi();
+    }
+
+    private void syncRenderExtrasUi() {
+        if (getContext() == null) return;
+        SharedPreferences prefs = requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE);
+        boolean shadows = prefs.getBoolean("shadows", true);
+        int camDown = Math.max(0, Math.min(45, prefs.getInt("camera_down", 0)));
+        String res = prefs.getString("resolution", "native");
+        if (mShadowsSwitch != null && mShadowsSwitch.isChecked() != shadows) {
+            mShadowsSwitch.setChecked(shadows);
+        }
+        if (mCameraDownSeek != null) {
+            mCameraDownSeek.setProgress(camDown);
+        }
+        if (mCameraDownValue != null) {
+            mCameraDownValue.setText(camDown + "°");
+        }
+        if (mResolutionSpinner != null) {
+            String[] resOptions = {"native", "720p", "900p", "1080p"};
+            for (int i = 0; i < resOptions.length; i++) {
+                if (resOptions[i].equalsIgnoreCase(res)) {
+                    if (mResolutionSpinner.getSelectedItemPosition() != i) {
+                        mResolutionSpinner.setSelection(i);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private void saveRenderPrefBool(String key, boolean val) {
+        if (getContext() == null) return;
+        requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE)
+                .edit().putBoolean(key, val).apply();
+    }
+
+    private void saveRenderPrefInt(String key, int val) {
+        if (getContext() == null) return;
+        requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE)
+                .edit().putInt(key, val).apply();
+    }
+
+    private void saveRenderPrefString(String key, String val) {
+        if (getContext() == null) return;
+        requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE)
+                .edit().putString(key, val).apply();
+    }
+
+    private void writeRenderSettingsIni() {
+        if (getActivity() == null || getActivity().getExternalFilesDir(null) == null || getContext() == null) return;
+        SharedPreferences prefs = requireContext().getApplicationContext().getSharedPreferences(RENDER_PREFS, Context.MODE_PRIVATE);
+        File file = new File(getActivity().getExternalFilesDir(null), "SAMP/render_settings.ini");
+        try {
+            if (!file.exists() && file.getParentFile() != null) file.getParentFile().mkdirs();
+            Wini wini = new Wini(file);
+            wini.put("render", "shadows", prefs.getBoolean("shadows", true) ? 1 : 0);
+            wini.put("render", "camera_down", prefs.getInt("camera_down", 0));
+            wini.put("render", "resolution", prefs.getString("resolution", "native"));
+            wini.store();
+        } catch (IOException ignored) {}
+    }
 }
