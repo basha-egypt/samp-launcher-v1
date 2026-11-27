@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#9B4DFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="blue">#0037FF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#140B24</color>
+    <color name="gray">#808080</color>
+    <color name="wallet_highlighted_text_holo_dark">#6633b5e5</color>
+    <color name="launcher_bg_deep">#07040F</color>
+    <color name="launcher_bg_mid">#140B24</color>
+    <color name="launcher_panel_top">#E71C1030</color>
+    <color name="launcher_panel_bottom">#D00A0614</color>
+    <color name="launcher_card_top">#DA261640</color>
+    <color name="launcher_card_bottom">#C0120A20</color>
+    <color name="launcher_border_soft">#548B4FD6</color>
+    <color name="launcher_border_bright">#8CB57BFF</color>
+    <color name="launcher_accent_gold">#D4A12C</color>
+    <color name="launcher_accent_gold_bright">#F7DC8A</color>
+    <color name="launcher_accent_teal">#8E3FE0</color>
+    <color name="launcher_accent_teal_dark">#3A1670</color>
+    <color name="launcher_accent_green">#78D99C</color>
+    <color name="launcher_accent_blue">#B48CFF</color>
+    <color name="launcher_surface_line">#2DFFFFFF</color>
+    <color name="launcher_text_primary">#F7F4EE</color>
+    <color name="launcher_text_secondary">#DDD2EE</color>
+    <color name="launcher_text_muted">#9A8BB5</color>
+    <color name="launcher_success">#78D99C</color>
+    <color name="launcher_danger">#FF8494</color>
+</resources>
