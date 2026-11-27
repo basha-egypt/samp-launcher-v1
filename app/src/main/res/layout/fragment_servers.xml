@@ -210,7 +210,7 @@
                     android:paddingTop="6dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="6dp"
-                    android:text="SERVIDORES SALVOS"
+                    android:text="السيرفرات المحفوظة (أدمن)"
                     android:textAllCaps="true"
                     android:textColor="@color/launcher_accent_gold_bright"
                     android:textSize="8sp" />
@@ -236,7 +236,7 @@
                     android:background="@drawable/home_server_select_button"
                     android:fontFamily="@font/montserrat_bold"
                     android:gravity="center"
-                    android:text="إضافة سيرفر"
+                    android:text="+ إضافة خادم خاص"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
                     android:visibility="gone" />

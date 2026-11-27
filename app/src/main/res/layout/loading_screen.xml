@@ -39,7 +39,7 @@
             android:paddingTop="6dp"
             android:paddingEnd="12dp"
             android:paddingBottom="6dp"
-            android:text="Runtime"
+            android:text="ARAB ISLAND RP"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="9sp" />
@@ -55,15 +55,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/news_rp_logo" />
+                app:srcCompat="@drawable/arab_island_logo" />
         </FrameLayout>
 
-        <ImageView
-            android:layout_width="184dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/news_rp_wordmark" />
+        
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +66,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_black"
             android:gravity="center"
-            android:text="جاري تحميل بيئة SA-MP"
+            android:text="جاري تحميل اللعبة"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

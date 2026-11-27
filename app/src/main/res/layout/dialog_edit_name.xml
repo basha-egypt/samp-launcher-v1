@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/montserrat_black"
-            android:text="تعديل الاسم"
+            android:text="الاسم الواقعي"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="اختر الاسم الذي سيُحفظ في ملف اللعبة."
+            android:text="اكتب اسمك الواقعي بالصيغة: الاسم_العائلة، مثل Steve_Max"
             android:textColor="@color/launcher_text_secondary"
             android:textSize="9sp" />
 
@@ -50,9 +50,11 @@
             android:layout_marginTop="14dp"
             android:background="@drawable/launcher_field_surface_dark"
             android:fontFamily="@font/montserrat_bold"
-            android:hint="اسمك في اللعبة"
+            android:hint="Steve_Max"
             android:imeOptions="actionDone|flagNoExtractUi"
             android:inputType="textPersonName"
+            android:layoutDirection="ltr"
+            android:textDirection="ltr"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
             android:singleLine="true"

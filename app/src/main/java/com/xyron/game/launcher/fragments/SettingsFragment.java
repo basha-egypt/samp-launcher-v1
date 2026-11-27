@@ -78,7 +78,19 @@ public class SettingsFragment extends Fragment {
 
         if (addServerButton != null) {
             addServerButton.setOnTouchListener(new ButtonAnimator(getContext(), addServerButton));
-            addServerButton.setOnClickListener(v -> showAddServerDialog());
+            boolean admin = getActivity() instanceof com.xyron.game.launcher.MainActivity
+                    && ((com.xyron.game.launcher.MainActivity) getActivity()).isAdminMode();
+            if (!admin) {
+                // Players never see the add-server card; admin only.
+                View card = (View) addServerButton.getParent();
+                card.setVisibility(View.GONE);
+            }
+            addServerButton.setText("إضافة خادم خاص");
+            addServerButton.setOnClickListener(v -> {
+                if (getActivity() instanceof com.xyron.game.launcher.MainActivity) {
+                    ((com.xyron.game.launcher.MainActivity) getActivity()).showAddPrivateServerDialog(null);
+                }
+            });
         }
 
         if (reinstallButton != null) {

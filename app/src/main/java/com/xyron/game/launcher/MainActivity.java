@@ -2,17 +2,22 @@ package com.xyron.game.launcher;
 
 import android.content.Intent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -80,6 +85,14 @@ public class MainActivity extends SampActivity {
             R.drawable.ic_settings_on,
             R.drawable.ic_credits_on
     };
+
+    // ---- Arab Island: default server + admin gate (UI-level only) ----
+    public static final String DEFAULT_SERVER_NAME = "عربي 1";
+    public static final String DEFAULT_SERVER_HOST = "185.211.103.215";
+    public static final int DEFAULT_SERVER_PORT = 4981;
+    private static final String ADMIN_USER = "basha";
+    private static final String ADMIN_PASS = "123123";
+    private static final String PREF_ADMIN_MODE = "arab_island_admin_mode";
 
     public static ArrayList<SAMPServerInfo> mServersFavouriteList = new ArrayList<>();
 
@@ -355,6 +368,7 @@ public class MainActivity extends SampActivity {
         mServersFavouriteList = new ArrayList<>();
 
         ConfigValidator.validateConfigFiles(this);
+        seedDefaultServer();
         ServerConfigManager.ensureSelectedServer(this);
         activeTabs = resolveActiveTabs();
 
@@ -440,7 +454,151 @@ public class MainActivity extends SampActivity {
             openTab(TAB_CREDITS);
         });
 
+        setupAdminIcon();
         openTab(resolveInitialTab());
+    }
+
+    // ================= Arab Island additions =================
+
+    private void seedDefaultServer() {
+        boolean exists = false;
+        for (ServerConfigManager.ServerOption o : ServerConfigManager.getAvailableServers(this)) {
+            if (o.matches(DEFAULT_SERVER_HOST, DEFAULT_SERVER_PORT)) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            ServerConfigManager.addOrUpdateServer(this, DEFAULT_SERVER_NAME,
+                    DEFAULT_SERVER_HOST, DEFAULT_SERVER_PORT, true);
+        }
+        // Players always start on the default server.
+        if (!isAdminMode()) {
+            ServerConfigManager.saveSelectedServer(this, DEFAULT_SERVER_HOST, DEFAULT_SERVER_PORT);
+        }
+    }
+
+    public boolean isAdminMode() {
+        return getSharedPreferences("arab_island_ui", Context.MODE_PRIVATE)
+                .getBoolean(PREF_ADMIN_MODE, false);
+    }
+
+    private void setAdminMode(boolean enabled) {
+        getSharedPreferences("arab_island_ui", Context.MODE_PRIVATE)
+                .edit().putBoolean(PREF_ADMIN_MODE, enabled).apply();
+    }
+
+    private void setupAdminIcon() {
+        View icon = findViewById(R.id.admin_icon_button);
+        if (icon == null) {
+            return;
+        }
+        refreshAdminIcon();
+        icon.setOnClickListener(v -> {
+            if (isAdminMode()) {
+                new AlertDialog.Builder(this)
+                        .setTitle("وضع الأدمن")
+                        .setMessage("تسجيل الخروج من وضع الأدمن؟")
+                        .setPositiveButton("خروج", (d, w) -> {
+                            setAdminMode(false);
+                            seedDefaultServer();
+                            applyAdminState(TAB_HOME);
+                        })
+                        .setNegativeButton("إلغاء", null)
+                        .show();
+            } else {
+                showAdminLoginDialog();
+            }
+        });
+    }
+
+    private void refreshAdminIcon() {
+        View icon = findViewById(R.id.admin_icon_button);
+        if (icon != null) {
+            boolean admin = isAdminMode();
+            icon.setBackgroundResource(admin ? R.drawable.admin_icon_bg_active : R.drawable.admin_icon_bg);
+            icon.setAlpha(admin ? 1.0f : 0.75f);
+        }
+    }
+
+    private void showAdminLoginDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_admin_login, null, false);
+        EditText user = dialogView.findViewById(R.id.admin_user_input);
+        EditText pass = dialogView.findViewById(R.id.admin_pass_input);
+        View cancel = dialogView.findViewById(R.id.admin_cancel);
+        View login = dialogView.findViewById(R.id.admin_login);
+
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        cancel.setOnClickListener(v -> dialog.dismiss());
+        login.setOnClickListener(v -> {
+            String u = user.getText() == null ? "" : user.getText().toString().trim();
+            String p = pass.getText() == null ? "" : pass.getText().toString();
+            if (ADMIN_USER.equals(u) && ADMIN_PASS.equals(p)) {
+                setAdminMode(true);
+                dialog.dismiss();
+                Toast.makeText(this, "تم تفعيل وضع الأدمن", Toast.LENGTH_SHORT).show();
+                applyAdminState(TAB_HOME);
+            } else {
+                Toast.makeText(this, "بيانات الدخول غير صحيحة", Toast.LENGTH_SHORT).show();
+            }
+        });
+        dialog.show();
+    }
+
+    /** Re-applies tab visibility after login/logout. Does not touch any launch logic. */
+    private void applyAdminState(int tabToOpen) {
+        activeTabs = resolveActiveTabs();
+        pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        applyRoleNavigation();
+        refreshAdminIcon();
+        openTab(tabToOpen);
+    }
+
+    /** Admin-only dialog: add a private server (name + IP:PORT). */
+    public void showAddPrivateServerDialog(Runnable onAdded) {
+        if (!isAdminMode()) {
+            return;
+        }
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_server, null, false);
+        EditText nameInput = dialogView.findViewById(R.id.dialog_server_name_input);
+        EditText input = dialogView.findViewById(R.id.dialog_server_input);
+        View cancel = dialogView.findViewById(R.id.dialog_server_cancel);
+        View save = dialogView.findViewById(R.id.dialog_server_save);
+        TextView limit = dialogView.findViewById(R.id.dialog_server_limit);
+        if (limit != null) {
+            limit.setText("يمكنك حفظ حتى " + ServerConfigManager.getMaxSavedServers() + " سيرفرات.");
+        }
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        cancel.setOnClickListener(v -> dialog.dismiss());
+        save.setOnClickListener(v -> {
+            String raw = input.getText() == null ? "" : input.getText().toString().trim();
+            String name = nameInput == null || nameInput.getText() == null
+                    ? "" : nameInput.getText().toString().trim();
+            if (!ServerConfigManager.isValidRawAddress(raw)) {
+                Toast.makeText(this, "الصيغة المطلوبة IP:PORT مثل 127.0.0.1:7777", Toast.LENGTH_LONG).show();
+                return;
+            }
+            ServerConfigManager.ServerOption added = ServerConfigManager.addOrUpdateServer(this, raw);
+            if (!added.isValid()) {
+                Toast.makeText(this, "وصلت للحد الأقصى من السيرفرات المحفوظة", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!name.isEmpty()) {
+                ServerConfigManager.addOrUpdateServer(this, name, added.host, added.port, added.favorite);
+            }
+            Toast.makeText(this, "تمت إضافة الخادم", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            if (onAdded != null) {
+                onAdded.run();
+            }
+        });
+        dialog.show();
     }
 
     public void openTab(int index) {
@@ -495,6 +653,13 @@ public class MainActivity extends SampActivity {
         }
 
         @Override
+        public long getItemId(int position) {
+            return activeTabs != null && position >= 0 && position < activeTabs.length
+                    ? activeTabs[position]
+                    : TAB_HOME;
+        }
+
+        @Override
         public int getCount() {
             return activeTabs == null ? 0 : activeTabs.length;
         }
@@ -514,6 +679,10 @@ public class MainActivity extends SampActivity {
     }
 
     private int[] resolveActiveTabs() {
+        if (!isAdminMode()) {
+            // Player view: clean launcher only.
+            return new int[] { TAB_HOME, TAB_SETTINGS, TAB_CREDITS };
+        }
         return new int[] {
                 TAB_HOME,
                 TAB_SERVERS,

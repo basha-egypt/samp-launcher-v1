@@ -4,8 +4,8 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
-                android:startColor="#EC090F14"
-                android:centerColor="#D6070C11"
+                android:startColor="#EC0C0718"
+                android:centerColor="#D6090513"
                 android:endColor="#C0030609" />
             <corners android:radius="8dp" />
             <stroke

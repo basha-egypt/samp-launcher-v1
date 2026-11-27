@@ -3,6 +3,8 @@ package com.xyron.game.launcher.fragments;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import com.xyron.game.launcher.MainActivity;
 import com.xyron.game.launcher.UpdateActivity;
 import com.xyron.game.launcher.util.ButtonAnimator;
 import com.xyron.game.launcher.util.GameDataVerifier;
+import com.xyron.game.launcher.util.SampQueryApi;
+import org.ini4j.Wini;
+import java.io.File;
 import com.xyron.game.launcher.util.ServerConfigManager;
 
 public class HomeFragment extends Fragment {
@@ -34,6 +39,24 @@ public class HomeFragment extends Fragment {
     private TextView nextStepButton;
     private int nextStepAction = NEXT_STEP_PLAY;
 
+    private View statusDot;
+    private TextView statusText;
+    private TextView playersText;
+    private TextView pingText;
+    private TextView nameValue;
+    private final Handler liveHandler = new Handler(Looper.getMainLooper());
+    private volatile boolean liveQueryRunning = false;
+    private final Runnable liveTicker = new Runnable() {
+        @Override
+        public void run() {
+            if (!isAdded()) {
+                return;
+            }
+            requestLiveInfo();
+            liveHandler.postDelayed(this, 5000L);
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -46,6 +69,20 @@ public class HomeFragment extends Fragment {
         readinessTitle = root.findViewById(R.id.home_readiness_title);
         readinessBody = root.findViewById(R.id.home_readiness_body);
         nextStepButton = root.findViewById(R.id.home_next_step_button);
+        statusDot = root.findViewById(R.id.home_status_dot);
+        statusText = root.findViewById(R.id.home_status_text);
+        playersText = root.findViewById(R.id.home_players_text);
+        pingText = root.findViewById(R.id.home_ping_text);
+        nameValue = root.findViewById(R.id.home_name_value);
+
+        View nameRow = root.findViewById(R.id.home_name_row);
+        if (nameRow != null) {
+            nameRow.setOnClickListener(v -> {
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).openTab(MainActivity.TAB_SETTINGS);
+                }
+            });
+        }
 
         if (playButton != null) {
             playButton.setOnTouchListener(new ButtonAnimator(requireContext(), playButton));
@@ -86,6 +123,95 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateSelectedServer();
+        updateNameValue();
+        liveHandler.removeCallbacks(liveTicker);
+        liveHandler.post(liveTicker);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        liveHandler.removeCallbacks(liveTicker);
+    }
+
+    private boolean isAdmin() {
+        return getActivity() instanceof MainActivity && ((MainActivity) getActivity()).isAdminMode();
+    }
+
+    private void updateNameValue() {
+        if (nameValue == null || getContext() == null || getContext().getExternalFilesDir(null) == null) {
+            return;
+        }
+        String nick = "";
+        try {
+            File f = new File(getContext().getExternalFilesDir(null), "SAMP/settings.ini");
+            if (f.exists()) {
+                Object v = new Wini(f).get("client", "name");
+                nick = v == null ? "" : v.toString().trim();
+            }
+        } catch (Exception ignored) {
+        }
+        boolean empty = nick.isEmpty();
+        nameValue.setText(empty ? "Steve_Max" : nick);
+        nameValue.setTextColor(getResources().getColor(empty
+                ? R.color.launcher_text_muted : R.color.launcher_text_primary));
+    }
+
+    private void requestLiveInfo() {
+        Context context = getContext();
+        if (context == null || liveQueryRunning) {
+            return;
+        }
+        final ServerConfigManager.ServerOption server = ServerConfigManager.getSelectedServer(context);
+        if (server == null || !server.isValid()) {
+            return;
+        }
+        liveQueryRunning = true;
+        new Thread(() -> {
+            boolean online = false;
+            int players = 0, max = 0, ping = 0;
+            SampQueryApi api = new SampQueryApi(server.host, server.port, 600);
+            try {
+                long p = api.measurePingMs(1);
+                if (p >= 0) {
+                    online = true;
+                    ping = (int) p;
+                    String[] info = api.getInfo();
+                    if (info != null) {
+                        players = parseInt(info[1]);
+                        max = parseInt(info[2]);
+                    }
+                }
+            } catch (Exception ignored) {
+            } finally {
+                api.close();
+            }
+            final boolean fOnline = online;
+            final int fPlayers = players, fMax = max, fPing = ping;
+            liveQueryRunning = false;
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> applyLiveInfo(fOnline, fPlayers, fMax, fPing));
+            }
+        }, "arab-island-live").start();
+    }
+
+    private void applyLiveInfo(boolean online, int players, int max, int ping) {
+        if (!isAdded() || statusText == null) {
+            return;
+        }
+        statusDot.setBackgroundResource(online
+                ? R.drawable.server_status_dot_online : R.drawable.server_status_dot_offline);
+        statusText.setText(online ? "متصل" : "غير متاح");
+        playersText.setText(online ? players + " / " + max : "-- / --");
+        pingText.setText(online && ping > 0 ? ping + " ms" : "-- ms");
+    }
+
+    private static int parseInt(String v) {
+        try {
+            return Integer.parseInt(v);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private void configureTabShortcut(View root, int viewId, int tabIndex) {
@@ -114,28 +240,29 @@ public class HomeFragment extends Fragment {
             return;
         }
 
+        boolean admin = isAdmin();
         boolean hasGameData = isLauncherRole() || GameDataVerifier.hasRequiredGameData(context);
         boolean hasServers = ServerConfigManager.hasConfiguredServers(context);
 
+        // Server-switch button and raw address are admin-only.
+        if (selectServerButton != null) {
+            selectServerButton.setVisibility(admin ? View.VISIBLE : View.GONE);
+        }
+        selectedServerAddress.setVisibility(admin ? View.VISIBLE : View.GONE);
+
         if (!hasServers) {
-            if (selectServerButton != null) {
-                selectServerButton.setText("إضافة سيرفر");
-            }
-            selectedServerName.setText("لا يوجد سيرفر نشط");
-            selectedServerAddress.setText("Toque em Adicionar servidor");
-            selectedServerHint.setText("بعد حفظ IP، يصبح جاهزاً للاستخدام هنا.");
+            selectedServerName.setText("لا يوجد سيرفر");
+            selectedServerAddress.setText("");
+            selectedServerHint.setText("لا يوجد سيرفر متاح حالياً.");
             updateReadiness(hasGameData, false, false);
             return;
         }
 
         ServerConfigManager.ServerOption selectedServer = ServerConfigManager.getSelectedServer(context);
         if (selectedServer == null || !selectedServer.isValid()) {
-            if (selectServerButton != null) {
-                selectServerButton.setText("Escolher servidor");
-            }
-            selectedServerName.setText("لا يوجد سيرفر نشط");
-            selectedServerAddress.setText("Escolha um IP salvo em Servidores");
-            selectedServerHint.setText("O servidor escolhido fica aplicado no jogo automaticamente.");
+            selectedServerName.setText("لا يوجد سيرفر");
+            selectedServerAddress.setText("");
+            selectedServerHint.setText("اختر سيرفراً للمتابعة.");
             updateReadiness(hasGameData, true, false);
             return;
         }
@@ -143,11 +270,9 @@ public class HomeFragment extends Fragment {
         if (selectServerButton != null) {
             selectServerButton.setText("تغيير السيرفر");
         }
-        selectedServerName.setText("Pronto para jogar");
-        selectedServerAddress.setText(selectedServer.getAddress());
-        selectedServerHint.setText(selectedServer.favorite
-                ? "Servidor favoritado e pronto para abrir no jogo."
-                : "Servidor pronto para abrir no jogo. Use Trocar servidor para mudar.");
+        selectedServerName.setText(selectedServer.name);
+        selectedServerAddress.setText(admin ? selectedServer.getAddress() : "");
+        selectedServerHint.setText("السيرفر جاهز، اضغط العب الآن للدخول إلى المدينة.");
         updateReadiness(hasGameData, true, true);
     }
 
@@ -156,40 +281,36 @@ public class HomeFragment extends Fragment {
             return;
         }
 
+        nextStepButton.setVisibility(View.VISIBLE);
+
         if (!hasGameData) {
             nextStepAction = NEXT_STEP_UPDATE_DATA;
-            readinessTitle.setText("بيانات معلّقة");
-            readinessBody.setText("حمّل ملفات اللعبة");
-            nextStepButton.setText("تحميل البيانات");
+            readinessTitle.setText("ملفات اللعبة ناقصة");
+            readinessBody.setText("حمّل ملفات اللعبة أولاً");
+            nextStepButton.setText("تحميل الملفات");
             return;
         }
 
         if (!hasServers) {
             nextStepAction = NEXT_STEP_ADD_SERVER;
-            readinessTitle.setText("Falta servidor");
-            readinessBody.setText("أضف IP:المنفذ");
-            nextStepButton.setText("إضافة سيرفر");
+            readinessTitle.setText("لا يوجد سيرفر");
+            readinessBody.setText("تواصل مع الإدارة");
+            nextStepButton.setText("الإعدادات");
             return;
         }
 
         if (!hasSelectedServer) {
             nextStepAction = NEXT_STEP_CHOOSE_SERVER;
-            readinessTitle.setText("Escolha o servidor");
-            readinessBody.setText("حدد الـ IP النشط");
-            nextStepButton.setText("Escolher servidor");
+            readinessTitle.setText("اختر السيرفر");
+            readinessBody.setText("لم يتم تحديد سيرفر");
+            nextStepButton.setText("اختيار السيرفر");
             return;
         }
 
         nextStepAction = NEXT_STEP_PLAY;
-        if (isLauncherRole()) {
-            readinessTitle.setText("Servidor pronto");
-            readinessBody.setText("فتح عبر APK اللعبة");
-            nextStepButton.setText("فتح اللعبة");
-        } else {
-            readinessTitle.setText("Tudo pronto");
-            readinessBody.setText("Pode entrar no jogo");
-            nextStepButton.setText("Jogar agora");
-        }
+        readinessTitle.setText("اللانشر جاهز");
+        readinessBody.setText("يمكنك الدخول الآن");
+        nextStepButton.setVisibility(View.GONE);
     }
 
     private void performNextStep() {

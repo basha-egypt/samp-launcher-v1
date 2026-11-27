@@ -60,7 +60,7 @@ public class ServersFragment extends Fragment {
             addServerShortcut.setOnTouchListener(new ButtonAnimator(requireContext(), addServerShortcut));
             addServerShortcut.setOnClickListener(v -> {
                 if (getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).openTab(MainActivity.TAB_SETTINGS);
+                    ((MainActivity) getActivity()).showAddPrivateServerDialog(this::refreshContent);
                 }
             });
         }
@@ -128,7 +128,7 @@ public class ServersFragment extends Fragment {
 
         emptyState.setVisibility(View.GONE);
         if (addServerShortcut != null) {
-            addServerShortcut.setVisibility(View.GONE);
+            addServerShortcut.setVisibility(View.VISIBLE);
         }
 
         for (ServerConfigManager.ServerOption option : options) {
