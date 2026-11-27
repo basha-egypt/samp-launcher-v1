@@ -1,2 +1,5 @@
 rootProject.name = 'ArabIslandLauncher'
 include ':app'
+if (file('prdownloader').exists()) {
+    include ':prdownloader'
+}
